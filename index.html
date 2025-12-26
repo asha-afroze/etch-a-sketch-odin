@@ -6,6 +6,7 @@
     <title>PixelSketch</title>
     <link rel="stylesheet" href="style.css" type="text/css">
     <script src="js-file.js" defer></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
 
@@ -14,7 +15,7 @@
     <div class = "container">
         <div class = "grid-container">
             <h2 style = "text-align: center">Let's Draw!</h2>
-            <div class = "canvas">  
+            <div class = "canvas" id="captureArea">  
             </div>
         </div>
 
@@ -34,13 +35,8 @@
             <button id = 'eraser'>Eraser</button>
             <button id = 'clear'>Clear Grid</button>
             <button id = 'addLines'>Add Gridlines</button>
-            <button id = 'guessDraw!'>Guess Drawing!</button>
-
-
-
-
+            <button id = 'guessDraw'>Guess Drawing!</button>
         </div>
-
     </div>
 </body>
 </html>

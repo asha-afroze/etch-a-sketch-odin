@@ -6,19 +6,16 @@ const colorInput = document.getElementById('color');
 const colorText = document.getElementById('colorValue');
 const clearGrid = document.getElementById('clear');
 const eraser = document.getElementById('eraser');
-const darken = document.getElementById('darken')
 const draw = document.getElementById('drawMode');
 const rainbow = document.getElementById('rainbow');
-const guessDraw = document.getElementById('guessDraw!');
-
+const guessDraw = document.getElementById('guessDraw');
 
 canvas.style.display = "flex";
 canvas.style.flexWrap = "wrap";
 
 let colorClick = false;
 let eraserClick = false;
-let rainbowCLick = false;
-let guessClick = false;
+let rainbowClick = false;
 let drawClick = true; // default to draw mode
 
 // 🎨 Update color text preview
@@ -26,13 +23,12 @@ colorInput.addEventListener("input", function() {
   colorText.textContent = colorInput.value;
 });
 
-let darkenClick = false;
- 
 // 🎨 Set color mode
 colorInput.addEventListener("click", function() {
   colorClick = true;
   drawClick = true;
   eraserClick = false;
+  rainbowClick = false;
 });
 
 // 🧽 Eraser mode
@@ -50,20 +46,29 @@ draw.addEventListener("click", function() {
   rainbowClick = false;
 });
 
-// ✏️ Rainbow mode
+// 🌈 Rainbow mode
 rainbow.addEventListener("click", function() {
   drawClick = false;
   rainbowClick = true;
   eraserClick = false;
 });
 
-// Guessing drawing
+// 📸 Guess Drawing
 guessDraw.addEventListener("click", function() {
-  drawClick = false;
-  guessClick = true;
-  rainbowCLick = false;
-  eraserClick = false;
-})
+  const captureArea = document.getElementById('captureArea');
+  
+  html2canvas(captureArea).then(canvas => {
+    // You can open the image in a new tab to test
+    const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    const link = document.createElement('a');
+    link.download = 'my-drawing.png';
+    link.href = image;
+    link.click();
+
+    // The 'canvas' object here is what we will send to the backend
+    console.log("Canvas captured:", canvas);
+  });
+});
 
 // 🧮 Display slider value
 displayPixels.textContent = pixelInput.value;
@@ -86,18 +91,13 @@ function createGrid() {
   }
 }
 
-// create random color
-
+// 🎨 Create random color
 function getRandomRgbColor() {
     const r = Math.floor(Math.random() * 256)
     const g = Math.floor(Math.random() * 256)
     const b = Math.floor(Math.random() * 256)
     return `rgb(${r}, ${g}, ${b})`;
-
-
 }
-
-const randColor = getRandomRgbColor();
 
 pixelInput.addEventListener("mouseup", createGrid);
 
@@ -138,7 +138,6 @@ canvas.addEventListener("mousedown", (e) => {
   }
 });
 
-
 document.addEventListener("mouseup", () => isPressed = false);
 
 canvas.addEventListener("mousemove", (e) => {
@@ -160,21 +159,5 @@ canvas.addEventListener("mousemove", (e) => {
   }
 });
 
-
-
-
-
-
-
-
-
 // 👇 Create the initial grid when page loads
 createGrid();
-
-
-
-
-
-
-
-
