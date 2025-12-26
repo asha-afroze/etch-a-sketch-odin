@@ -57,17 +57,41 @@ rainbow.addEventListener("click", function() {
 // 📸 Guess Drawing
 guessDraw.addEventListener("click", function() {
   const captureArea = document.getElementById('captureArea');
-  
-  html2canvas(captureArea).then(canvas => {
-    // You can open the image in a new tab to test
-    const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-    const link = document.createElement('a');
-    link.download = 'my-drawing.png';
-    link.href = image;
-    link.click();
+  const resultArea = document.getElementById('guessResult');
 
-    // The 'canvas' object here is what we will send to the backend
-    console.log("Canvas captured:", canvas);
+  resultArea.textContent = "Thinking..."; // Provide immediate feedback
+
+  html2canvas(captureArea).then(canvas => {
+    // Convert the canvas to a Blob object
+    canvas.toBlob(function(blob) {
+      // Create a FormData object to send the file
+      const formData = new FormData();
+      formData.append('file', blob, 'drawing.png');
+
+      // Use fetch to send the image to the backend
+      fetch('http://127.0.0.1:8000/guess', {
+        method: 'POST',
+        body: formData,
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Display the prediction
+        if (data.guess) {
+          resultArea.textContent = `AI Guess: ${data.guess.replace(/_/g, ' ')}`;
+        } else if (data.error) {
+          resultArea.textContent = `Error: ${data.error}`;
+        }
+      })
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+        resultArea.textContent = 'Could not connect to the AI. Is the backend running?';
+      });
+    }, 'image/png');
   });
 });
 
