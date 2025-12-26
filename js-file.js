@@ -11,7 +11,6 @@ const draw = document.getElementById('drawMode');
 const rainbow = document.getElementById('rainbow');
 
 
-
 canvas.style.display = "flex";
 canvas.style.flexWrap = "wrap";
 
@@ -57,15 +56,6 @@ rainbow.addEventListener("click", function() {
   rainbowClick = true;
   eraserClick = false;
   darkenClick = false;
-});
-
-
-// Darken Mode
-darken.addEventListener("click", function() {
-  drawClick = false;
-  rainbowClick = false;
-  darkenClick = true;
-  eraserClick = false;
 });
 
 // 🧮 Display slider value
@@ -139,12 +129,6 @@ canvas.addEventListener("mousedown", (e) => {
     square.style.backgroundColor = getRandomRgbColor();
     square.style.opacity = 1;
   }
-  else if (darkenClick) {
-    let opacity = parseFloat(square.style.opacity) || 1;
-    if (opacity > 0.1) {
-      square.style.opacity = opacity - 0.1;
-    }
-  }
 });
 
 
@@ -166,12 +150,6 @@ canvas.addEventListener("mousemove", (e) => {
   else if (rainbowClick) {
     square.style.backgroundColor = getRandomRgbColor();
     square.style.opacity = 1;
-  }
-  else if (darkenClick) {
-    let opacity = parseFloat(square.style.opacity) || 1;
-    if (opacity > 0.1) {
-      square.style.opacity = opacity - 0.1;
-    }
   }
 });
 
