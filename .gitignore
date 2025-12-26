@@ -1,0 +1,13 @@
+# Python virtual environment
+backend/venv/
+backend/env/
+
+# Python cache
+__pycache__/
+backend/__pycache__/
+
+# macOS specific files
+.DS_Store
+
+# Test images
+test_drawing.png
