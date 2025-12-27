@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelSketch</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    <script src="js-file.js" defer></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body>
+
+    
+    <h1>Pixel Sketch</h1>
+    <div class = "container">
+        <div class = "grid-container">
+            <h2 style = "text-align: center">Let's Draw!</h2>
+            <div class = "canvas" id="captureArea"></div>
+        </div>
+
+    <div class = "options">
+
+        <!-- <p>Adjust Pixel Size</p>
+        <input type = "range" value = "2" min = "2" max = "100" oninput = "this.nextElementSibling.value = this.value" id = "pixelSize">
+        <p>Value: <span id="rangeValue"></span></p> -->
+        <h2>Tool Board</h2>
+        <div class = "main-buttons">
+            
+            <div class = "buttons1">
+
+                <div class = "tool-button">
+                    <label for="color" class="custom-color-picker">
+                        <input type = "color" id = "color">
+                    </label>
+                    <span class="label">Color</span>
+                </div>
+
+                <div class = "tool-button">
+                    <button id = 'drawMode'><img src = images/pencil.png alt = "pencil"></button>
+                    <span class="label">Draw!</span>
+                </div>
+
+                <div class = "tool-button">
+                    <button id = 'rainbow'><img src = images/rainbow.png alt = "rainbow"></button>
+                    <span class="label">Rainbow Mode</span>
+                </div>
+            </div>
+
+
+
+            <div class = "buttons2">
+                <div class="tool-button">
+                    <button id = 'eraser'><img src = images/eraser.png alt = "eraser"></button>
+                    <span class="label">Eraser</span>
+                </div>
+
+                <div class="tool-button">
+                    <button id = 'clear'><img src = images/trash.png alt = "trash bin"></button>
+                    <span class="label">Clear Grid</span>
+                </div>
+
+                <div class="tool-button">
+                    <button id = 'addLines'><img src = images/ruler.png alt = "ruler"></button>
+                    <span class="label">Add Gridlines</span>
+                </div>
+
+            </div>
+
+        </div>
+
+            <button id = 'guessDraw'>Guess Drawing!</button>
+            <div id="guessResult"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -100,6 +100,47 @@ h2 {
   display: block;
 }
 
+.tool-button {
+  position: relative;
+  width: 80px;
+  aspect-ratio: 1 / 1;
+}
+
+/* label styling */
+.tool-button .label {
+    position: absolute;
+    inset: 0; /* fills the container */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 200;
+    font-family: monospace;
+    color: #221b1b;
+    text-shadow:0 0 15px rgb(204, 115, 192);
+    background: rgba(255, 255, 255, 0.55);
+
+    opacity: 0;
+    pointer-events: none; /* label doesn’t block clicks */
+    transition: opacity 0.2s ease;
+}
+
+/* icon transition */
+.tool-button img {
+  transition: opacity 0.2s ease;
+}
+
+/* hover effect */
+.tool-button:hover img {
+  opacity: 0.35;
+}
+
+.tool-button:hover .label {
+  opacity: 1;
+}
+
+
 
 
 

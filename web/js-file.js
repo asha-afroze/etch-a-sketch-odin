@@ -1,5 +1,5 @@
 const canvas = document.querySelector(".canvas");
-const pixelInput = document.getElementById('pixelSize');
+// const pixelInput = document.getElementById('pixelSize');
 const displayPixels = document.getElementById('rangeValue');
 const addLines = document.querySelector("#addLines");
 const colorInput = document.getElementById('color');
@@ -96,16 +96,16 @@ guessDraw.addEventListener("click", function() {
 });
 
 // 🧮 Display slider value
-displayPixels.textContent = pixelInput.value;
-pixelInput.addEventListener('input', () => {
-  displayPixels.textContent = pixelInput.value;
-});
+// displayPixels.textContent = pixelInput.value;
+// pixelInput.addEventListener('input', () => {
+//   displayPixels.textContent = pixelInput.value;
+// });
 
 // 🟩 Generate grid
 function createGrid() {
   canvas.innerHTML = "";
-  const totalSquares = pixelInput.value * pixelInput.value;
-  const squareSize = 100 / pixelInput.value;
+  const totalSquares = 32 * 32;
+  const squareSize = 100 / 32;
 
   for (let i = 0; i < totalSquares; i++) {
     const square = document.createElement("div");
@@ -116,6 +116,9 @@ function createGrid() {
   }
 }
 
+// pixelInput.addEventListener("mouseup", createGrid);
+
+
 // 🎨 Create random color
 function getRandomRgbColor() {
     const r = Math.floor(Math.random() * 256)
@@ -124,7 +127,6 @@ function getRandomRgbColor() {
     return `rgb(${r}, ${g}, ${b})`;
 }
 
-pixelInput.addEventListener("mouseup", createGrid);
 
 // ✨ Toggle grid lines
 addLines.addEventListener("click", function() {
