@@ -1,17 +1,17 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from transformers import ViTFeatureExtractor, ViTForImageClassification
-from PIL import Image, ImageFilter
+from PIL import Image
+import numpy as np
+import tensorflow as tf
 import io
 
-# Initialize FastAPI app
+# -----------------------
+# FastAPI app
+# -----------------------
 app = FastAPI()
 
-# --- CORS Middleware ---
 origins = [
     "http://localhost",
-    "http://localhost:8080",
-    "http://127.0.0.1",
     "http://127.0.0.1:5500",
     "null",
 ]
@@ -24,53 +24,70 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# --- Model Loading ---
-model_name = 'google/vit-base-patch16-224'
-feature_extractor = ViTFeatureExtractor.from_pretrained(model_name)
-model = ViTForImageClassification.from_pretrained(model_name)
+# -----------------------
+# Load your trained model
+# -----------------------
+model = tf.keras.models.load_model("fruit_model.keras")
+print("✅ Fruit model loaded")
 
-print(f"Model '{model_name}' loaded successfully!")
+CLASS_NAMES = [
+    "apple",
+    "banana",
+    "cherry",
+    "pear",
+    "strawberry",
+]
 
-# --- API Endpoints ---
+# -----------------------
+# Health check
+# -----------------------
 @app.get("/")
-def read_root():
-    return {"message": "Welcome to the Etch-A-Sketch AI Guesser API"}
+def root():
+    return {"status": "Fruit AI backend running 🍓"}
 
+# -----------------------
+# Prediction endpoint
+# -----------------------
 @app.post("/guess")
 async def guess_drawing(file: UploadFile = File(...)):
-    """
-    Receives an image file, pre-processes it for better accuracy,
-    and returns the model's top guess.
-    """
     contents = await file.read()
-    
+
     try:
-        image = Image.open(io.BytesIO(contents))
-        if image.mode != "RGB":
-            image = image.convert("RGB")
+        # Open image
+        image = Image.open(io.BytesIO(contents)).convert("L")
 
-        # --- Pre-processing for Pixelated Drawings ---
-        # 1. Upscale the image to the model's expected size (224x224)
-        #    using a high-quality filter to start the smoothing process.
-        image = image.resize((224, 224), Image.Resampling.LANCZOS)
+        # Resize to EXACT training size
+        image = image.resize((32, 32), Image.Resampling.NEAREST)
 
-        # 2. Apply a gentle Gaussian blur to soften the hard pixel edges,
-        #    making the drawing look more like the data the model was trained on.
-        image = image.filter(ImageFilter.GaussianBlur(radius=1.5))
-        # --- End of Pre-processing ---
+        # Convert to numpy
+        img_array = np.array(image)
+
+        # Normalize
+        img_array = img_array / 255.0
+
+        # Shape: (1, 32, 32, 1)
+        img_array = img_array.reshape(1, 32, 32, 1)
 
     except Exception as e:
-        return {"error": f"Failed to open or process image: {str(e)}"}
+        return {"error": f"Image processing failed: {str(e)}"}
 
-    # Use the feature extractor to prepare the image for the model
-    inputs = feature_extractor(images=image, return_tensors="pt")
+    # Run prediction
+    predictions = model.predict(img_array)[0]
+    print(predictions)
 
-    # Make a prediction
-    outputs = model(**inputs)
-    logits = outputs.logits
+    max_index = int(np.argmax(predictions))
+    confidence = float(predictions[max_index])
 
-    # Get the top prediction
-    predicted_class_idx = logits.argmax(-1).item()
-    prediction = model.config.id2label[predicted_class_idx]
-
-    return {"guess": prediction}
+    if confidence < 0.6:
+        return {
+            "guess": "Not sure",
+            "confidence": confidence
+        }
+    print({
+        "guess": CLASS_NAMES[max_index],
+        "confidence": confidence
+    })
+    return {
+        "guess": CLASS_NAMES[max_index],
+        "confidence": confidence
+    }

@@ -11,3 +11,6 @@ backend/__pycache__/
 
 # Test images
 test_drawing.png
+
+# Ignore fruit dataset
+training/tfjs-env/

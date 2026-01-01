@@ -81,6 +81,8 @@ document.querySelectorAll('.color-box').forEach(box => {
 guessDraw.addEventListener("click", function() {
   const captureArea = document.getElementById('captureArea');
   const resultArea = document.getElementById('guessResult');
+  resultArea.style.fontFamily = "monospace, sans-serif";
+
 
   resultArea.textContent = "Thinking..."; // Provide immediate feedback
 
