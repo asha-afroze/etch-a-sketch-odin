@@ -21,7 +21,6 @@ h1{
     font-family: 'PixelBig1', sans-serif;
     color: rgb(194, 88, 162);
     padding-bottom: 15px;
-    border-bottom: #130e0e solid 1px;
     background: linear-gradient(rgb(252, 255, 229), rgb(239, 180, 217));
     text-shadow: 2px 2px darkred;
     box-shadow: 0 8px 10px rgba(123, 28, 115, 0.627);
