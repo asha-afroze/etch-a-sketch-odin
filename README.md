@@ -9,7 +9,7 @@ An interactive pixel drawing web application that recognizes hand-drawn fruit sk
 - [Project Overview](#project-overview)
 - [Motivation](#motivation)
 - [Features](#features)
-- [Screenshots] (#screenshots)
+- [Screenshots](#screenshots)
 - [Getting Started](#getting-started)
   - [Installation Prerequisites](#installation-prerequisites)
   - [How to Run the Project Locally](#how-to-run-the-project-locally)
@@ -42,10 +42,11 @@ This project was created as an end-to-end exploration of AI application developm
 
 ---
 
-### 📸 Screenshots
+## 📸 Screenshots
 ![Screenshot 1 of Live Website](web/images/pixelart_screenshot.png)
 ![Screenshot 2 of Live Website](web/images/pixelsketch_screenshot2.png)
 
+---
 
 ## 🚀 Getting Started Guide
 
